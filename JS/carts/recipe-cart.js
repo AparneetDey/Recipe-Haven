@@ -1,47 +1,47 @@
 const recipes = [
     {
         name: "Spaghetti Bolognese",
-        image: "/Recipe-Haven/Images/spaghetti.jpg",
+        image: "Images/spaghetti.jpg",
         description: "A classic Italian pasta dish with a rich, slow-cooked meat sauce."
     },
     {
         name: "Chicken Tikka Masala",
-        image: "/Recipe-Haven/Images/chicken-tikka.jpg",
+        image: "Images/chicken-tikka.jpg",
         description: "Marinated chicken in a creamy, spiced curry sauce."
     },
     {
         name: "French Onion Soup",
-        image: "/Recipe-Haven/Images/french-onion-soup.jpg",
+        image: "Images/french-onion-soup.jpg",
         description: "Deeply caramelized onions in a rich beef broth topped with melted cheese."
     },
     {
         name: "Pad Thai",
-        image: "/Recipe-Haven/Images/pad-thai.jpg",
+        image: "Images/pad-thai.jpg",
         description: "Stir-fried rice noodles with tofu, peanuts, eggs, and a tangy tamarind sauce."
     },
     {
         name: "Chocolate Lava Cake",
-        image: "/Recipe-Haven/Images/choco-lava.jpg",
+        image: "Images/choco-lava.jpg",
         description: "Rich chocolate cake with a gooey molten center."
     },
     {
         name: "Caesar Salad",
-        image: "/Recipe-Haven/Images/caesar-salad.jpg",
+        image: "Images/caesar-salad.jpg",
         description: "Crisp romaine lettuce, Parmesan, croutons, and creamy Caesar dressing."
     },
     {
         name: "Japanese Ramen",
-        image: "/Recipe-Haven/Images/ramen.jpg",
+        image: "Images/ramen.jpg",
         description: "Flavorful broth with noodles, soft-boiled eggs, and a variety of toppings."
     },
     {
         name: "Classic Cheeseburger",
-        image: "/Recipe-Haven/Images/burger.jpg",
+        image: "Images/burger.jpg",
         description: "Juicy beef patty with cheddar cheese, lettuce, tomato, and pickles in a toasted bun."
     },
     {
         name: "Beef Stroganoff",
-        image: "/Recipe-Haven/Images/beef-stroganoff.jpg",
+        image: "Images/beef-stroganoff.jpg",
         description: "Tender strips of beef cooked in a creamy mushroom sauce, served over egg noodles."
     }
 ];
