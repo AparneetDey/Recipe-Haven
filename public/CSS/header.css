@@ -1,0 +1,133 @@
+/* Navbar styling */
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 75px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0px 60px;
+    transition: all 0.3s ease;
+    position: fixed;
+    z-index: 100;
+}
+
+.left-header{
+    display: flex;
+    align-items: center;
+    gap: 52px;
+}
+
+.right-header{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.logo a {
+    font-size: clamp(1.2rem, 2vw, 3rem);
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links li a{
+    color: black;
+    text-decoration: none;
+    font-size: clamp(0.875rem, 0.5625rem + 1vw, 1.125rem);
+    transition: all 0.5s ease;
+}
+
+.nav-links li{
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-links li:hover {
+    transform: translateY(-3px);
+}
+
+/* Button */
+.header-btn{
+    display: flex;
+    gap: 15px;
+}
+
+/* Hamburger Menu for Mobile */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    width: 1.3rem;
+    height: 0.1rem;
+    background-color: black;
+    margin: 2px 0;
+    transition: all 0.3s ease;
+    border-radius: 100px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0px 30px;
+    }
+    .nav-links {
+        position: absolute;
+        top: 74px;
+        right: 0;
+        height: 60vh;
+        width: 180px;
+        border-bottom-left-radius: 2rem;
+        background-color: white;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        gap: 40px;
+        z-index: 10;
+    }
+
+    .nav-links li:hover {
+        transform: none;
+    }
+
+    .nav-links.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+}
+
+@media (max-width: 500px){
+    .navbar{
+        padding: 15px 20px;
+    }
+
+    .signup-btn{
+        display: none;
+    }
+
+    .nav-links {
+        height: 40vh;
+    }
+}
+
+@media (max-width: 300px){
+    .navbar{
+        padding: 15px 10px;
+    }
+}

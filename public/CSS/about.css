@@ -1,0 +1,98 @@
+/* About Section */
+.about-section {
+    padding: 0px 50px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.about-container h2 {
+    font-size: clamp(2rem, 0.75rem + 4vw, 3rem);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-container p {
+    font-size: clamp(1rem, 0.375rem + 2vw, 1.5rem);
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.about-section p span{
+    font-weight: bold;
+}
+
+/* Team Section */
+.team-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-container h3 {
+    font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.2rem);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.team-member {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.team-member img {
+    width: 200px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.team-member h4 {
+    font-size: clamp(1.2rem, 0.7rem + 1.6vw, 1.6rem);
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    font-size: clamp(0.8rem, 0.3rem + 1.6vw, 1.2rem);
+    line-height: 1.4;
+    color: #666;
+}
+
+/* Contact Section */
+.contact-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-section h3 {
+    font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.2rem);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contact-section p{
+    font-size: clamp(0.8rem, 0.3rem + 1.6vw, 1.2rem);
+}
+
+.contact-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.contact-section ul li p{
+    font-size: clamp(0.9rem, 0.4rem + 1.6vw, 1.3rem);
+    line-height: 1.5;
+}
+
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 0px 10px;
+    }
+    .team-container .team-member img {
+        width: 140px;
+    }
+}
