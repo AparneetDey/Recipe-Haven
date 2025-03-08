@@ -1,9 +1,9 @@
 /* Footer styling */
 .footer {
-    background-color: #272727;
-    color: #f1f1f1;
+    background-color: #f8f0ed;
+    color: #333333;
     padding: 40px 0;
-    text-align: center;
+    text-align: left;
     border-radius: 2rem 2rem 0 0;
     width: 100%;
     margin-top: 3em;
@@ -11,17 +11,25 @@
 
 .footer-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 0px;
+    gap: 60px;
 }
 
 .footer-section {
-    flex: 1;
-    min-width: 200px;
-    margin: 10px;
+    margin: 0;
+}
+
+.footer-section:first-child {
+    flex: 0 0 200px;
+    max-width: 300px;
+}
+
+.footer-section:not(:first-child) {
+    flex: 0 0 auto;
 }
 
 .footer-section h3 {
@@ -33,7 +41,7 @@
 .footer-section p {
     font-size: 1rem;
     line-height: 1.6;
-    color: #d1d1d1;
+    color: #555555;
 }
 
 .footer-section ul {
@@ -46,7 +54,7 @@
 }
 
 .footer-section ul li a {
-    color: #f1f1f1;
+    color: #333333;
     text-decoration: none;
     font-size: 1rem;
 }
@@ -57,15 +65,20 @@
 
 .social-icons {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     list-style-type: none;
     gap: 15px;
 }
 
 .footer-bottom {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
     margin-top: 40px;
     font-size: 0.9rem;
-    color: #d1d1d1;
+    color: #555555;
 }
 
 .footer-bottom p {
@@ -79,16 +92,24 @@
     }
     .footer-container {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 30px;
     }
 
-    .footer-section {
-        margin: 20px 0;
+    .footer-section,
+    .footer-section:first-child {
+        flex: 0 0 100%;
+        width: 100%;
+        margin: 0;
     }
 
     .social-icons {
         justify-content: space-around;
         flex-wrap: wrap;
+    }
+    .footer-bottom{
+        padding: 0px 20px;
     }
 }
 @media (hover: none){
