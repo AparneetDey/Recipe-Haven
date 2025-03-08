@@ -5,6 +5,11 @@ const path = require('path');
 // Serve static files from the public directory
 app.use(express.static('public'));
 
+// Serve sitemap.xml
+app.get('/sitemap.xml', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
+
 // Serve the index.html from the root directory
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
