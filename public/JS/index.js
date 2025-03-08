@@ -34,7 +34,7 @@ pageLinks.push(...document.querySelectorAll('.footer-links li a'));
 const page = document.querySelectorAll('.page');
 
 // Check if there is an active page in local storage
-let activePage = sessionStorage.getItem('activePage') || '#home';
+let activePage = sessionStorage.getItem('activePage') || 'home';
 page.forEach(p => {
     if(p.getAttribute('id') === activePage) {
         p.style.display = 'flex';
@@ -47,22 +47,22 @@ page.forEach(p => {
 // Change the active page
 pageLinks.forEach(link => {
     link.addEventListener('click', () => {
+        const href = link.getAttribute('href');
         page.forEach(p => {
             p.classList.remove('active');
             setTimeout(() => {
                 p.style.display = 'none';
             }, 500);
-            if(link.getAttribute('href') == p.getAttribute('id')) {
+            if(href === p.getAttribute('id')) {
                 setTimeout(() => {
                     p.style.display = 'flex';
                     setTimeout(() => {
                         p.classList.add('active');
                     }, 20); // Slight delay to allow transition
                 }, 500);
-                sessionStorage.setItem('activePage', p.getAttribute('id'));
+                sessionStorage.setItem('activePage', href);
             }
         });
-
     });
 });
 
