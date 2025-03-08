@@ -1,8 +1,10 @@
 import { generateRecipe } from "./carts/recipe-cart.js";
 import { generateTeaser } from "./carts/teaser-cart.js";
+import { getRecipeTags } from "./carts/tag-cart.js";
 
 generateRecipe();
 generateTeaser();
+getRecipeTags();
 
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
