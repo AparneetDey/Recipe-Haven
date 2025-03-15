@@ -28,9 +28,19 @@ app.get('/*', (req, res) => {
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
-    const port = 3000;
-    app.listen(port, () => {
+    const port = process.env.PORT || 3000;
+    const server = app.listen(port, () => {
         console.log(`Server is running on port http://localhost:${port}`);
+    }).on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+            console.log(`Port ${port} is busy, trying ${port + 1}`);
+            server.close();
+            app.listen(port + 1, () => {
+                console.log(`Server is running on port http://localhost:${port + 1}`);
+            });
+        } else {
+            console.error('Server error:', err);
+        }
     });
 }
 
