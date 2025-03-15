@@ -2,8 +2,19 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 // Serve static files from the public directory
 app.use(express.static('public'));
+
+// Serve robots.txt
+app.get('/robots.txt', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
 
 // Serve sitemap.xml
 app.get('/sitemap.xml', (req, res) => {
