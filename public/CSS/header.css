@@ -31,6 +31,12 @@
     text-decoration: none;
 }
 
+.logo span {
+    font-size: clamp(1.2rem, 2vw, 3rem);
+    font-weight: bold;
+    color: black;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -50,6 +56,10 @@
 
 .nav-links li:hover {
     transform: translateY(-3px);
+}
+
+.nav-links li:hover a{
+    color: #ff6347;
 }
 
 /* Button */
@@ -109,7 +119,6 @@
     .hamburger {
         display: flex;
     }
-
 }
 
 @media (max-width: 500px){

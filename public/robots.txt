@@ -4,9 +4,9 @@
 # Allow all robots complete access
 User-agent: *
 Allow: /
-Allow: /recipe
-Allow: /popular
-Allow: /about
+Allow: /recipe/
+Allow: /popular/
+Allow: /about/
 Allow: /images/
 Allow: /CSS/
 Allow: /JS/
@@ -14,7 +14,7 @@ Allow: /JS/
 # Block access to any sensitive directories
 Disallow: /admin/
 Disallow: /private/
-Disallow: /*?*  # Block dynamic query parameters
+Disallow: /*?
 
 # Crawl-delay
 Crawl-delay: 10

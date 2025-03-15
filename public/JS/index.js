@@ -6,11 +6,11 @@ generateRecipe();
 generateTeaser();
 getRecipeTags();
 
+// Mobile menu handling
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
 const filter = document.querySelector('.filter');
 const popularLinks = document.querySelector('.filter .popular-links');
-console.log
 
 hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('active');
@@ -54,20 +54,19 @@ pageLinks.forEach(link => {
             p.classList.remove('active');
             setTimeout(() => {
                 p.style.display = 'none';
-            }, 500);
+            }, 100);
             if(href === p.getAttribute('id')) {
                 setTimeout(() => {
                     p.style.display = 'flex';
                     setTimeout(() => {
                         p.classList.add('active');
                     }, 20); // Slight delay to allow transition
-                }, 500);
+                }, 100);
                 sessionStorage.setItem('activePage', href);
             }
         });
     });
 });
-
 
 //Focusing on the search field
 const searchBar = document.getElementById('search-bar');
