@@ -54,14 +54,14 @@ pageLinks.forEach(link => {
             p.classList.remove('active');
             setTimeout(() => {
                 p.style.display = 'none';
-            }, 100);
+            }, 10);
             if(href === p.getAttribute('id')) {
                 setTimeout(() => {
                     p.style.display = 'flex';
                     setTimeout(() => {
                         p.classList.add('active');
-                    }, 20); // Slight delay to allow transition
-                }, 100);
+                    }, 5); // Slight delay to allow transition
+                }, 10);
                 sessionStorage.setItem('activePage', href);
             }
         });

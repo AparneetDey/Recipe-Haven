@@ -13,6 +13,7 @@
     "routes": [
         {
             "src": "/sitemap.xml",
+            
             "dest": "/public/sitemap.xml"
         },
         {
