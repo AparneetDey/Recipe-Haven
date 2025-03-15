@@ -1,3 +1,23 @@
+# Recipe Haven robots.txt
+# https://recipe-haven.vercel.app
+
+# Allow all robots complete access
 User-agent: *
 Allow: /
+Allow: /recipe
+Allow: /popular
+Allow: /about
+Allow: /images/
+Allow: /CSS/
+Allow: /JS/
+
+# Block access to any sensitive directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*?*  # Block dynamic query parameters
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Sitemaps
 Sitemap: https://recipe-haven.vercel.app/sitemap.xml 
