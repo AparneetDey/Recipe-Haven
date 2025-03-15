@@ -80,8 +80,8 @@
 
 @media (hover: none) {
     .card:hover {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transform: none;
-        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
     }
 }
 
