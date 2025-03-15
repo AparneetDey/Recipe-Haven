@@ -1,0 +1,10 @@
+# Recipe Haven robots.txt
+# https://recipe-haven.vercel.app
+
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*?*
+Allow: /
+
+Sitemap: https://recipe-haven.vercel.app/sitemap.xml 
