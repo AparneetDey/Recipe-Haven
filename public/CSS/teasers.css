@@ -1,6 +1,5 @@
 .recipe-teasers {
     padding: 0 50px;
-    background-color: #f9f9f9;
     text-align: center;
     width: 100%;
 }
@@ -17,14 +16,14 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(.45,-0.93,.55,1.51);
     max-width: 1000px;
     margin: 20px auto;
     text-align: left;
 }
 
-.recipe-preview:hover {
-    transform: translateY(-5px);
+.recipe-preview:hover{
+    transform: scale(1.05);
 }
 
 .recipe-preview h3 {

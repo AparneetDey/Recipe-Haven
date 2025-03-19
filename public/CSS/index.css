@@ -74,7 +74,7 @@ button:active {
 /* Auto show animation */
 .autoShow{
     animation: autoShow both;
-    animation-timeline: view(70% 10%);
+    animation-timeline: view(70% auto);
 }
 @keyframes autoShow {
     from{
@@ -83,6 +83,6 @@ button:active {
     }
     to{
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0px);
     }
 }
