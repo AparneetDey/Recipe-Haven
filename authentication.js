@@ -19,7 +19,7 @@ function fadeIn(element) {
     element.style.display = 'block';
     let last = +new Date();
     let tick = function() {
-        element.style.opacity = +element.style.opacity + (new Date() - last) / 400;
+        element.style.opacity = +element.style.opacity + (new Date() - last) / 50;
         last = +new Date();
         if (+element.style.opacity < 1) {
             requestAnimationFrame(tick);
@@ -32,7 +32,7 @@ function fadeOut(element, callback) {
     element.style.opacity = 1;
     let last = +new Date();
     let tick = function() {
-        element.style.opacity = +element.style.opacity - (new Date() - last) / 400;
+        element.style.opacity = +element.style.opacity - (new Date() - last) / 50;
         last = +new Date();
         if (+element.style.opacity > 0) {
             requestAnimationFrame(tick);
