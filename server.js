@@ -2,6 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+// Set the views directory
+app.set('views', path.join(__dirname, 'views'));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
