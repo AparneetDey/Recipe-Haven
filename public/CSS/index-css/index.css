@@ -49,14 +49,14 @@ button:active {
 }
 
 .page{
-    opacity: 0;
-    display: none;
+    /* opacity: 0;
+    display: none; */
     transition: all 0.3s ease-in-out;
 }
 
 .home{
     flex-direction: column;
-    gap: 6em;
+    gap: 6rem;
 }
 
 .active{

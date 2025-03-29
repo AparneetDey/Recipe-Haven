@@ -26,14 +26,17 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
-// Serve the index.html from the root directory
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 // Route to serve the authentication page
 app.get('/authentication', (req, res) => {
     res.render('authentication');
+});
+
+// Serve the index.html from the root directory
+app.get('/*', (req, res) => {
+    const page = req.query.page || 'home';
+    const template = 'index-template/'+page;
+
+    res.render('index', {template: template});
 });
 
 // For local development

@@ -10,8 +10,7 @@ const recipeTags = [
     'American',
 ];
 
-export function getRecipeTags(){
-    const tagsContainer = document.querySelector('.popular-links');
+export function getRecipeTags(tagsContainer){
     let html = '';
 
     recipeTags.forEach(tag => {

@@ -1,0 +1,33 @@
+// Change the active page
+pageLinks.forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default anchor behavior
+        const href = link.getAttribute('href');
+
+        // Load the new template
+        loadPage(href);
+    });
+});
+
+// Function to load the new page template
+function loadPage(pageId) {
+    const currentPage = document.querySelector('.page.active');
+    const newPage = document.getElementById(pageId);
+
+    if (currentPage) {
+        currentPage.classList.remove('active');
+        currentPage.style.display = 'none'; // Hide current page
+    }
+
+    if (newPage) {
+        newPage.style.display = 'flex'; // Show new page
+        setTimeout(() => {
+            newPage.classList.add('active'); // Add active class after display
+        }, 20); // Slight delay to allow transition
+        sessionStorage.setItem('activePage', pageId); // Update active page in session storage
+    }
+}
+
+// Check if there is an active page in local storage
+let activePage = sessionStorage.getItem('activePage') || 'home';
+loadPage(activePage); // Load the active page on initial load 

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Discover and share delicious recipes from around the world. Our recipe-sharing platform offers a wide variety of dishes, from classic favorites to modern creations, all in a user-friendly, responsive interface." />
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+	<meta name="google-site-verification" content="CKPHLnSRUyybjyiIUNWCtbdKwb28XGi4q733dmEYSR4" />
+
+	<title>Recipe Haven</title>
+
+	<link rel="icon" href="/Images/logo.jpg" type="image/png">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<!--FontAwesome-->
+
+	<!-- Jakarta Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+		rel="stylesheet">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/CSS/index-css/index.css">
+	<link rel="stylesheet" href="/CSS/index-css/header.css">
+	<link rel="stylesheet" href="/CSS/index-css/description.css">
+	<link rel="stylesheet" href="/CSS/index-css/Recipes.css">
+	<link rel="stylesheet" href="/CSS/index-css/teasers.css">
+	<link rel="stylesheet" href="/CSS/index-css/footer.css">
+	<link rel="stylesheet" href="/CSS/index-css/about.css">
+</head>
+
+<body>
+	<header>
+		<nav class="navbar">
+			<div class="left-header">
+				<div class="logo">
+					<a href="/">Recipe Haven</a>
+				</div>
+				<ul class="nav-links">
+					<li><a href="/?page=home">Home</a></li>
+					<li><a href="/?page=recipe">Recipes</a></li>
+					<li><a href="/?page=blog">Popular</a></li>
+					<li><a href="/?page=about">About</a></li>
+				</ul>
+			</div>
+			<div class="right-header">
+				<div class="header-btn">
+					<button class="login-btn" onclick="window.location.href='/authentication'">Login</button>
+				</div>
+				<div class="hamburger">
+					<span class="bar"></span>
+					<span class="bar"></span>
+					<span class="bar"></span>
+				</div>
+			</div>
+		</nav>
+		<div style="height: 75px;"></div>
+	</header>
+
+	<main>
+		<%- include(template) %>
+	</main>
+
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-section">
+				<h3>About Us</h3>
+				<p>Bringing you the best recipes from around the world. Discover, cook, and share with our vibrant
+					community of food lovers.</p>
+			</div>
+
+			<div class="footer-section">
+				<h3>Quick Links</h3>
+				<ul class="footer-links">
+					<li><a href="/?page=home">Home</a></li>
+					<li><a href="/?page=recipe">Recipes</a></li>
+					<li><a href="/?page=blog">Popular</a></li>
+					<li><a href="/?page=about">About</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-section">
+				<h3>Follow Us</h3>
+				<ul class="social-icons">
+					<li><a href="https://www.linkedin.com/in/aparneet-dey-9098a5323/" target="_blank"><i
+								class="fa-brands fa-linkedin fa-bounce fa-xl"></i></a></li>
+					<li><a href="https://github.com/AparneetDey" target="_blank"><i
+								class="fa-brands fa-github fa-xl"></i></a></li>
+					<li><a href="https://www.instagram.com/ayush_noice/" target="_blank"><i
+								class="fa-brands fa-instagram fa-xl"></i></a></li>
+					<li><a href="https://x.com/Mr_X800" target="_blank"><i class="fa-brands fa-twitter fa-xl"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2025 Your Recipe Website. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script type="module" src="/JS/index-js/index.js"></script>
+</body>
+
+</html>
