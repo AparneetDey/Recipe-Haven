@@ -2,7 +2,7 @@ import { generateRecipe } from "./carts/recipe-cart.js"
 import { generateTeaser } from "./carts/teaser-cart.js";
 import { getRecipeTags } from "./carts/tag-cart.js";
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
     applyFunction();
 })
 
@@ -11,29 +11,42 @@ function applyFunction() {
     const recipePage = document.querySelector('.recipe .recipe-cards');
     const tagsContainer = document.querySelector('.popular-links');
 
-    if(recipePage!==null){
+    if (recipePage !== null) {
         generateRecipe(recipePage);
     }
-    else if(teaserPage!==null){
+    else if (teaserPage !== null) {
         generateTeaser(teaserPage);
     }
-    else if(tagsContainer!==null){
+    else if (tagsContainer !== null) {
         getRecipeTags(tagsContainer);
+    }
+    else {
+        //Focusing on the search field
+        const searchBar = document.getElementById('search-bar');
+        const searchBtn = document.getElementById('search-icon');
+        searchBtn.addEventListener('click', () => {
+            if (searchBar.innerHTML === '') {
+                searchBar.focus();
+            }
+        });
+
+        //search bar filter
+        const filter = document.querySelector('.filter');
+        const popularLinks = document.querySelector('.filter .popular-links');
+        filter.addEventListener('click', () => {
+            popularLinks.classList.toggle('active');
+        });
     }
 
     // Mobile menu handling
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    const filter = document.querySelector('.filter');
-    const popularLinks = document.querySelector('.filter .popular-links');
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
     });
 
-    filter.addEventListener('click', () => {
-        popularLinks.classList.toggle('active');
-    });
+
 
     // Close the menu when clicking outside of it
     document.addEventListener('click', (event) => {
@@ -81,14 +94,5 @@ function applyFunction() {
                 }
             });
         });
-    });
-
-    //Focusing on the search field
-    const searchBar = document.getElementById('search-bar');
-    const searchBtn = document.getElementById('search-icon');
-    searchBtn.addEventListener('click', () => {
-        if (searchBar.innerHTML === '') {
-            searchBar.focus();
-        }
     });
 }

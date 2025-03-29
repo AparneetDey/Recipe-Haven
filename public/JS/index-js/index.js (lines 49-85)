@@ -12,20 +12,35 @@ pageLinks.forEach(link => {
 // Function to load the new page template
 function loadPage(pageId) {
     const currentPage = document.querySelector('.page.active');
-    const newPage = document.getElementById(pageId);
 
     if (currentPage) {
         currentPage.classList.remove('active');
         currentPage.style.display = 'none'; // Hide current page
     }
 
-    if (newPage) {
-        newPage.style.display = 'flex'; // Show new page
-        setTimeout(() => {
-            newPage.classList.add('active'); // Add active class after display
-        }, 20); // Slight delay to allow transition
-        sessionStorage.setItem('activePage', pageId); // Update active page in session storage
-    }
+    // Fetch the new page content
+    fetch(`${pageId}.html`) // Assuming the templates are named like 'home.html', 'about.html', etc.
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            const newPage = document.createElement('div');
+            newPage.innerHTML = html;
+            newPage.classList.add('page', 'active'); // Add classes for styling
+            document.body.appendChild(newPage); // Append the new page to the body
+
+            newPage.style.display = 'flex'; // Show new page
+            setTimeout(() => {
+                newPage.classList.add('active'); // Add active class after display
+            }, 20); // Slight delay to allow transition
+            sessionStorage.setItem('activePage', pageId); // Update active page in session storage
+        })
+        .catch(error => {
+            console.error('Error fetching the page:', error);
+        });
 }
 
 // Check if there is an active page in local storage

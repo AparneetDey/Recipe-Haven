@@ -46,6 +46,5 @@ export function generateTeaser(teaserPage){
         `;
     });
 
-    console.log(teaserPage);
     teaserPage.innerHTML = html;
 }
