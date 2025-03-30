@@ -48,10 +48,21 @@ button:active {
     transform: scale(0.9);
 }
 
+/* main{
+    opacity: 0;
+    display: none;
+} */
+
+.main{
+    opacity: 0;
+    display: flex;
+    transition: all 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
 .page{
-    /* opacity: 0;
-    display: none; */
-    transition: all 0.3s ease-in-out;
+    display: flex;
 }
 
 .home{
@@ -61,7 +72,6 @@ button:active {
 
 .active{
     opacity: 1;
-    display: flex;
 }
 
 @media (hover: none){

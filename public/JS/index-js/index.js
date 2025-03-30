@@ -7,6 +7,35 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function applyFunction() {
+
+    // Mobile menu handling
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Close the menu when clicking outside of it
+    document.addEventListener('click', (event) => {
+        // If the click is outside the hamburger or menu, close the menu
+        if (!hamburger.contains(event.target) && !navLinks.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    //delay on page loading
+    const main = document.querySelector('.main');
+    setTimeout(() => {
+        if(main.classList.contains('active')){
+            main.classList.remove('active');
+        }
+        main.classList.add('active');
+        
+        console.log('Page loaded');
+    }, 100);
+
+
     const teaserPage = document.querySelector('.popular .recipe-teasers');
     const recipePage = document.querySelector('.recipe .recipe-cards');
     const tagsContainer = document.querySelector('.popular-links');
@@ -36,63 +65,14 @@ function applyFunction() {
         filter.addEventListener('click', () => {
             popularLinks.classList.toggle('active');
         });
+
+        document.addEventListener('click', (event) => {
+            // If the click is outside the filter, close the filter
+            if (!filter.contains(event.target) && !popularLinks.contains(event.target)) {
+                popularLinks.classList.remove('active');
+            }
+        });
     }
 
-    // Mobile menu handling
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-
-
-    // Close the menu when clicking outside of it
-    document.addEventListener('click', (event) => {
-        // If the click is outside the hamburger or menu, close the menu
-        if (!hamburger.contains(event.target) && !navLinks.contains(event.target)) {
-            navLinks.classList.remove('active');
-        }
-        if (!filter.contains(event.target) && !popularLinks.contains(event.target)) {
-            popularLinks.classList.remove('active');
-        }
-    });
-
-    let pageLinks = Array.from(document.querySelectorAll('.nav-links li a'));
-    pageLinks.push(...document.querySelectorAll('.footer-links li a'));
-    const page = document.querySelectorAll('.page');
-
-    // Check if there is an active page in local storage
-    let activePage = sessionStorage.getItem('activePage') || 'home';
-    page.forEach(p => {
-        if (p.getAttribute('id') === activePage) {
-            p.style.display = 'flex';
-            setTimeout(() => {
-                p.classList.add('active');
-            }, 20); // Slight delay to allow transition
-        }
-    });
-
-    // Change the active page
-    pageLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            const href = link.getAttribute('href');
-            page.forEach(p => {
-                p.classList.remove('active');
-                setTimeout(() => {
-                    p.style.display = 'none';
-                }, 10);
-                if (href === p.getAttribute('id')) {
-                    setTimeout(() => {
-                        p.style.display = 'flex';
-                        setTimeout(() => {
-                            p.classList.add('active');
-                        }, 5); // Slight delay to allow transition
-                    }, 10);
-                    sessionStorage.setItem('activePage', href);
-                }
-            });
-        });
-    });
 }
