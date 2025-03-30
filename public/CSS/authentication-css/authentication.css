@@ -19,6 +19,17 @@ body {
     padding: 20px;
 }
 
+.form{
+    position: relative;
+}
+
+.back-icon{
+    position: absolute;
+    top: 8%;
+    bottom: 0;
+    color: black;
+}
+
 h2 {
     text-align: center;
     font-size: clamp(1.2rem, 2vw, 3rem);
@@ -55,7 +66,7 @@ p {
     text-align: center;
 }
 
-span {
+a {
     color: #4CAF50;
     cursor: pointer;
     text-decoration: underline;

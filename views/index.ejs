@@ -8,7 +8,7 @@
 	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 	<meta name="google-site-verification" content="CKPHLnSRUyybjyiIUNWCtbdKwb28XGi4q733dmEYSR4" />
 
-	<title>Recipe Haven</title>
+	<title>Recipe Haven - <%= title %></title>
 
 	<link rel="icon" href="/Images/logo.jpg" type="image/png">
 
@@ -46,9 +46,20 @@
 				</ul>
 			</div>
 			<div class="right-header">
-				<div class="header-btn">
-					<button class="login-btn" onclick="window.location.href='/authentication'">Login</button>
-				</div>
+				<% if (username) { %>
+					<div class="user-profile"><img src="/Images/profile.jpg" alt="user-profile"></div>
+					<div class="user-name"><p><%= username %></p><i class="fa-solid fa-chevron-down fa-lg"></i></div>
+					<ul class="user-links">
+						<li><a href="?=profile"></a></li>
+						<li><a href="?=settings"></a></li>
+						<li><a href="?=posts"></a></li>
+						<li><a href="?=signout"></a></li>
+					</ul>
+				<% } else { %>
+					<div class="header-btn">
+						<button class="login-btn" onclick="window.location.href='/authentication?page=login'">Login</button>
+					</div>
+				<% } %>
 				<div class="hamburger">
 					<span class="bar"></span>
 					<span class="bar"></span>

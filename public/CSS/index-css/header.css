@@ -21,7 +21,7 @@
 .right-header{
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 8px;
 }
 
 .logo a {
@@ -139,4 +139,37 @@
     .navbar{
         padding: 15px 10px;
     }
+}
+
+.user-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.user-name p{
+    color: black;
+    font-size: clamp(0.875rem, 0.5625rem + 1vw, 1.125rem);
+}
+
+.user-name i{
+    font-size: clamp(0.8rem, 0.55rem + 0.8vw, 1rem);
+}
+
+.user-profile{
+    min-width: 30px;
+    max-width: 40px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-profile img{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 100px;
 }

@@ -27,12 +27,10 @@ function applyFunction() {
     //delay on page loading
     const main = document.querySelector('.main');
     setTimeout(() => {
-        if(main.classList.contains('active')){
+        if (main.classList.contains('active')) {
             main.classList.remove('active');
         }
         main.classList.add('active');
-        
-        console.log('Page loaded');
     }, 100);
 
 
@@ -49,7 +47,8 @@ function applyFunction() {
     else if (tagsContainer !== null) {
         getRecipeTags(tagsContainer);
     }
-    else {
+
+    try {
         //Focusing on the search field
         const searchBar = document.getElementById('search-bar');
         const searchBtn = document.getElementById('search-icon');
@@ -73,6 +72,8 @@ function applyFunction() {
             }
         });
     }
-
-
+    catch(error){
+        //pass
+    }
+    
 }

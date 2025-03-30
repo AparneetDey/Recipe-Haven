@@ -48,11 +48,6 @@ button:active {
     transform: scale(0.9);
 }
 
-/* main{
-    opacity: 0;
-    display: none;
-} */
-
 .main{
     opacity: 0;
     display: flex;
@@ -68,6 +63,10 @@ button:active {
 .home{
     flex-direction: column;
     gap: 6rem;
+}
+
+.recipe, .popular, .about{
+    margin-top: 2em;
 }
 
 .active{
