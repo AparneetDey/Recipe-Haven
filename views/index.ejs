@@ -4,11 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Discover and share delicious recipes from around the world. Our recipe-sharing platform offers a wide variety of dishes, from classic favorites to modern creations, all in a user-friendly, responsive interface." />
+	<meta name="description"
+		content="Discover and share delicious recipes from around the world. Our recipe-sharing platform offers a wide variety of dishes, from classic favorites to modern creations, all in a user-friendly, responsive interface." />
 	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 	<meta name="google-site-verification" content="CKPHLnSRUyybjyiIUNWCtbdKwb28XGi4q733dmEYSR4" />
 
-	<title>Recipe Haven - <%= title %></title>
+	<title>Recipe Haven - <%= title %>
+	</title>
 
 	<link rel="icon" href="/Images/logo.jpg" type="image/png">
 
@@ -29,6 +31,7 @@
 	<link rel="stylesheet" href="/CSS/index-css/teasers.css">
 	<link rel="stylesheet" href="/CSS/index-css/footer.css">
 	<link rel="stylesheet" href="/CSS/index-css/about.css">
+	<link rel="stylesheet" href="/CSS/userProfile-css/profile.css">
 </head>
 
 <body>
@@ -46,25 +49,31 @@
 				</ul>
 			</div>
 			<div class="right-header">
-				<% if (username) { %>
-					<div class="user-profile"><img src="/Images/profile.jpg" alt="user-profile"></div>
-					<div class="user-name"><p><%= username %></p><i class="fa-solid fa-chevron-down fa-lg"></i></div>
+				<% if (user.username) { %>
+					<div class="user-profile" id="userProfile"></div>
+					<div class="user-name">
+						<p>
+							<%= user.username %>
+						</p>
+						<i class="fa-solid fa-chevron-down fa-lg"></i>
+					</div>
 					<ul class="user-links">
 						<li><a href="?=profile">Profile</a></li>
 						<li><a href="?=settings">Settings</a></li>
 						<li><a href="?=posts">Your Posts</a></li>
-						<li><a href="/signout" >Sign Out</a></li>
+						<li><a href="/signout">Sign Out</a></li>
 					</ul>
 				<% } else { %>
 					<div class="header-btn">
-						<button class="login-btn" onclick="window.location.href='/authentication?page=login'">Login</button>
+							<button class="login-btn"
+								onclick="window.location.href='/authentication?page=login'">Login</button>
 					</div>
 				<% } %>
-				<div class="hamburger">
-					<span class="bar"></span>
-					<span class="bar"></span>
-					<span class="bar"></span>
-				</div>
+					<div class="hamburger">
+						<span class="bar"></span>
+						<span class="bar"></span>
+						<span class="bar"></span>
+					</div>
 			</div>
 		</nav>
 		<div style="height: 75px;"></div>
@@ -72,7 +81,66 @@
 
 	<main>
 		<div class="main">
-			<%- include(template) %>
+			<!-- Profile Container -->
+			<div class="profile-container">
+				<!-- Banner -->
+				<div class="banner" id="banner">
+					<input type="file" id="uploadBanner" accept="image/*">
+					<label for="uploadBanner" class="upload-btn">
+						<p class="uploadBanner">Put up a Banner!</p>
+					</label>
+				</div>
+
+				<!-- User Info Section -->
+				<div class="user-info">
+					<form class="profile-pic" action="/upload-profile" method="POST" enctype="multipart/form-data">
+						<label for="profileUpload">
+							<div class="profile-icon" id="profileIcon"></div>
+						</label>
+						<input type="file" id="profileUpload" name="profilePhoto" style="display: none;">
+					</form>
+					<h2 class="username"><%= user.username %></h2>
+					<p class="bio">Food Enthusiast | Loves Cooking</p>
+
+					<!-- Food Preferences -->
+					<div class="food-tags">
+						<span class="tag">Italian</span>
+						<span class="tag">Desserts</span>
+						<span class="tag">Vegan</span>
+						<span class="tag">Asian</span>
+					</div>
+				</div>
+
+				<!-- User Posts -->
+				<div class="user-posts">
+					<h3 style="margin: 16px;">My Recipes</h3>
+					<section class="recipe-cards">
+						<div class="card">
+							<img loading="lazy" src="/Images/pasta.jpg" alt="Pasta Recipe">
+							<h3>Pasta Delight</h3>
+							<p>Brought together the freshest ingredients and bold flavors to create mouthwatering pasta
+								dishes that
+								are sure to satisfy your cravings with every bite.</p>
+						</div>
+
+						<div class="card">
+							<img loading="lazy" src="/Images/sushi.jpg" alt="Sushi Recipe">
+							<h3>Fresh Sushi</h3>
+							<p>Experience the perfect balance of delicate flavors and premium ingredients, crafted to
+								bring you the
+								freshest and most authentic sushi in every bite.</p>
+						</div>
+
+						<div class="card">
+							<img loading="lazy" src="/Images/tacos.jpg" alt="Tacos Recipe">
+							<h3>Spicy Tacos</h3>
+							<p>A fiery explosion of bold flavors and vibrant spices, wrapped in a perfectly crisp shell
+								for the
+								ultimate taco experience.</p>
+						</div>
+					</section>
+				</div>
+			</div>
 		</div>
 	</main>
 
@@ -113,7 +181,15 @@
 		</div>
 	</footer>
 
+
+	<script>
+		const profile = {
+			username: "<%= user.username %>",
+			profilePhoto: "<% user.profilePhoto %>"
+		}
+	</script>
 	<script type="module" src="/JS/index-js/index.js"></script>
+	<script type="module" src="/JS/userProfile-js/profile.js"></script>
 </body>
 
 </html>
