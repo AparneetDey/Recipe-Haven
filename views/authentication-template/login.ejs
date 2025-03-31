@@ -4,6 +4,13 @@
         <i class="fa-solid fa-arrow-left fa-lg back-icon"></i>
     </a>
     <h2>Login</h2>
+    
+    <% if (errorMessage) { %>
+        <div class="error-message" style="color: red;">
+            <%= errorMessage %>
+        </div>
+    <% } %>
+    
     <form action="/login" method="POST">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>

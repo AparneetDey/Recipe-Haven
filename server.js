@@ -2,14 +2,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
+const { isUint16Array } = require('util/types');
+const { emit } = require('process');
+const { log } = require('console');
 
-let title;
-let template;
-let users = [];
-let user = {
-    userName: '',
-    passWord: ''
-}
+let users = [{
+    userName: 'Ayush',
+    passWord: '12345'
+}];
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -33,8 +33,9 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-app.post('/signup',(req,res)=>{
-    user = {
+//Signup
+app.post('/signup', (req, res) => {
+    const user = {
         userName: req.body.username,
         passWord: req.body.password
     };
@@ -42,21 +43,30 @@ app.post('/signup',(req,res)=>{
     users.push(user);
     req.session.user = user;
 
-    renderPage(req,res);
+    renderPage(req, res);
 });
 
-app.post('/login',(req,res)=>{
-    user = {
+//Login 
+app.post('/login', (req, res) => {
+    const user = {
         userName: req.body.username,
         passWord: req.body.password
     };
 
-    if(users.some(u => u.userName === user.userName)){
-        if(users.some(u => u.passWord === user.passWord)){
+    if (users.some(u => u.userName === user.userName)) {
+        if (users.some(u => u.passWord === user.passWord)) {
             req.session.user = user;
 
-            renderPage(req,res);
+            renderPage(req, res);
         }
+        else {
+            const errorMessage = 'Wrong Password';
+            renderAuthentication(req, res, errorMessage)
+        }
+    }
+    else {
+        const errorMessage = 'Incorrect Username';
+        renderAuthentication(req, res, errorMessage);
     }
 });
 
@@ -73,26 +83,22 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
+//signout
+app.get('/signout',(req,res)=>{
+    if(req.session){
+        delete req.session.user;
+    }
+    renderPage(req,res);
+})
+
 // Route to serve the authentication page
 app.get('/authentication', (req, res) => {
-    const page = req.query.page || 'login';
-    template = 'authentication-template/'+page;
-
-    switch (page){
-        case 'login':
-            title = 'Log In';
-            break;
-        case 'signup':
-            title = 'Sign Up';
-            break;
-    }
-
-    res.render('authentication', {template: template, title: title});
+    renderAuthentication(req, res);
 });
 
 // Serve the index.html from the root directory
 app.get('/*', (req, res) => {
-    renderPage(req,res);
+    renderPage(req, res);
 });
 
 // For local development
@@ -118,11 +124,18 @@ module.exports = app;
 
 
 
-function renderPage(req,res){
+function renderPage(req, res) {
     const page = req.query.page || 'home';
-    template = 'index-template/'+page;
+    const template = 'index-template/' + page;
+    let title;
 
-    switch (page){
+    const user = req.session.user || {
+        userName: '',
+        passWord: ''
+    };
+    const userName = user.userName;
+
+    switch (page) {
         case 'home':
             title = 'Home';
             break;
@@ -136,5 +149,21 @@ function renderPage(req,res){
             title = 'About';
             break;
     }
-    res.render('index', {template: template, title: title, username: user.userName});
+    res.render('index', { template: template, title: title, username: userName });
+}
+
+function renderAuthentication(req, res, errorMessage = '') {
+    const page = req.query.page || 'login';
+    template = 'authentication-template/' + page;
+
+    switch (page) {
+        case 'login':
+            title = 'Log In';
+            break;
+        case 'signup':
+            title = 'Sign Up';
+            break;
+    }
+
+    res.render('authentication', { template: template, title: title, errorMessage: errorMessage });
 }

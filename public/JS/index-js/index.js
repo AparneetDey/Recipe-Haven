@@ -12,6 +12,7 @@ function applyFunction() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
+
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
     });
@@ -72,8 +73,25 @@ function applyFunction() {
             }
         });
     }
-    catch(error){
+    catch (error) {
         //pass
     }
-    
+    try {
+        //user links
+        const userName = document.querySelector('.user-name');
+        const userLinks = document.querySelector('.user-links');
+        userName.addEventListener('click', () => {
+            userLinks.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (event) => {
+            // If the click is outside the user links, close the user links
+            if (!userName.contains(event.target) && !userLinks.contains(event.target)) {
+                userLinks.classList.remove('active');
+            }
+        });
+    }
+    catch (error) {
+        //pass
+    }
 }
