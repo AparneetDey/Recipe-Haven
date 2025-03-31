@@ -33,9 +33,7 @@ const recipes = [
     }
 ];
 
-export function generateTeaser(){
-    const teaserPage = document.querySelector('.popular .recipe-teasers');
-
+export function generateTeaser(teaserPage){
     let html = '<h2>Popular Recipes</h2>';
 
     recipes.forEach(item =>{

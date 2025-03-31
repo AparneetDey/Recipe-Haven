@@ -1,0 +1,89 @@
+/* authentication.css */
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-container {
+    width: 70%; /* Use percentage for responsiveness */
+    max-width: 400px; /* Maximum width for larger screens */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.form{
+    position: relative;
+}
+
+.back-icon{
+    position: absolute;
+    top: 8%;
+    bottom: 0;
+    color: black;
+}
+
+h2 {
+    text-align: center;
+    font-size: clamp(1.2rem, 2vw, 3rem);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: clamp(0.8rem, 0.55rem + 0.8vw, 1rem);
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    text-align: center;
+}
+
+a {
+    color: #4CAF50;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .auth-container {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 15px; /* Reduce padding */
+    }
+
+    input {
+        padding: 8px; /* Adjust input padding */
+    }
+
+    button {
+        padding: 8px; /* Adjust button padding */
+    }
+}

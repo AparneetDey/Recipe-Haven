@@ -46,9 +46,7 @@ const recipes = [
     }
 ];
 
-export function generateRecipe(){
-    const recipePage = document.querySelector('.recipe .recipe-cards');
-
+export function generateRecipe(recipePage){
     let html = '';
     recipes.forEach((item) =>{
         html += `
@@ -61,6 +59,5 @@ export function generateRecipe(){
             </div>
         `
     });
-
     recipePage.innerHTML = html;
 }

@@ -48,20 +48,29 @@ button:active {
     transform: scale(0.9);
 }
 
-.page{
+.main{
     opacity: 0;
-    display: none;
-    transition: all 0.3s ease-in-out;
+    display: flex;
+    transition: all 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
+.page{
+    display: flex;
 }
 
 .home{
     flex-direction: column;
-    gap: 6em;
+    gap: 6rem;
+}
+
+.recipe, .popular, .about{
+    margin-top: 2em;
 }
 
 .active{
     opacity: 1;
-    display: flex;
 }
 
 @media (hover: none){
