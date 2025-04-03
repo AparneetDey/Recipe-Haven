@@ -16,13 +16,12 @@
 .banner {
     width: 100%;
     height: 200px;
-    background: #ddd;
     border-radius: 10px;
 }
 .banner input {
     display: none;
 }
-.upload-btn {
+.upload-area {
     width: 100%;
     height: 100%;
     cursor: pointer;
@@ -30,8 +29,15 @@
     justify-content: center;
     align-items: center;
 }
-.upload-btn .uploadBanner{
+
+.upload-area .upload-banner {
+    color: white;
     font-size: clamp(0.875rem, 0.5625rem + 1vw, 1.125rem);
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
 }
 
 .user-info{

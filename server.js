@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
 
 //  Global User Middleware (Makes user available in all templates)
 app.use((req, res, next) => {
-    res.locals.user = req.session.user || { username: '', password: '', profilePhoto: '' };
+    res.locals.user = req.session.user || {username: ''};
     next();
 });
 
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 // Set up storage for multer to save files to public/images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, 'public', 'Images')); // Save images in 'public/images'
+        cb(null, path.join(__dirname, 'public', 'Images','profileImages')); // Save images in 'public/Images/profileImages'
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`); // Generate unique filename
@@ -66,14 +66,38 @@ app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
         return res.status(400).send('No file uploaded.');
     }
 
-    const profileImageUrl = `/Images/${req.file.filename}`; // File path for the uploaded image
+    const profileImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
     
-    req.session.user = req.session.user || {}; // Ensure user object exists
-    req.session.user.profilePhoto = profileImageUrl; // Save the image path in session
+    req.session.user = { ...req.session.user, profilePhoto: profileImageUrl };
+    let updatedUser = req.session.user;
+
+    users = users.map(user => 
+        user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+    );
+    
 
     // You can save this URL in the user's profile in the database if required
 
     res.json({ imageUrl: profileImageUrl });
+});
+
+app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    const bannerImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
+    
+    req.session.user = { ...req.session.user, bannerPhoto: bannerImageUrl };
+    let updatedUser = req.session.user;
+
+    users = users.map(user => 
+        user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+    );
+    
+
+    // You can save this URL in the user's profile in the database if required
+    res.json({ imageUrl: bannerImageUrl });
 });
 
 
@@ -106,13 +130,15 @@ app.post('/signup', (req, res) => {
 
 //Login 
 app.post('/login', (req, res) => {
-    const user = {
+    const sample = {
         username: req.body.username,
         password: req.body.password
     };
 
-    if (users.some(u => u.userName === user.userName)) {
-        if (users.some(u => u.passWord === user.passWord)) {
+    let user = users.find(u => u.username === sample.username);
+
+    if (user) {
+        if (user.password === sample.password) {
             req.session.user = user;
 
             req.session.save(()=>{
@@ -121,12 +147,12 @@ app.post('/login', (req, res) => {
         }
         else {
             const errorMessage = 'Wrong Password';
-            renderAuthentication(req, res, errorMessage)
+            res.redirect(`/authentication?page=login&error=${errorMessage}`);
         }
     }
     else {
         const errorMessage = 'Incorrect Username';
-        renderAuthentication(req, res, errorMessage);
+        res.redirect(`/authentication?page=login&error=${errorMessage}`)
     }
 });
 
@@ -180,19 +206,24 @@ function renderPage(req, res) {
         home: 'Home',
         recipe: 'Recipes',
         blog: 'Blogs',
-        about: 'About'
+        about: 'About',
+        profile: 'Profile'
     }[page] || 'Page';
 
+    console.log(users);
+    console.log(req.session.user);
     res.render('index', { template: template, title: title});
 }
 
-function renderAuthentication(req, res, errorMessage = '') {
+function renderAuthentication(req, res,) {
     const page = req.query.page || 'login';
     const template = 'authentication-template/' + page;
     let title = {
         login: 'login',
         signup: 'signup'
     }[page] || 'Page';
+
+    const errorMessage = req.query.error;
 
     res.render('authentication', { template: template, title: title, errorMessage: errorMessage });
 }

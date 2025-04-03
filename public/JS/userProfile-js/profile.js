@@ -1,40 +1,57 @@
-// Upload Banner Image
-const uploadBanner = document.getElementById('uploadBanner');
-const uploadLine = document.querySelector('.uploadBanner');
-const banner = document.getElementById('banner')
-uploadBanner.addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            localStorage.setItem("bannerImage", e.target.result);
-            banner.style.background = `url(${e.target.result}) center/cover no-repeat`;
-        };
-        reader.readAsDataURL(file);
-        uploadLine.style.display = 'none';
-    }
-});
+// Profile Icon Settings
+function setBanner(bannerImageUrl) {
+    const uploadBanner = document.getElementById("uploadBanner");
+    const banner = document.getElementById('banner');
 
-function setBannerImage(){
-    const bannerImage = localStorage.getItem("bannerImage");
+    console.log(bannerImageUrl);
 
-    if(bannerImage){
-        banner.style.background = `url(${bannerImage}) center/cover no-repeat`;
-        uploadLine.style.display = 'none';
-    }
-    else{
-        uploadLine.style.display = 'block';
+    if (!uploadBanner) return;
+
+    if (bannerImageUrl) {
+        // If profile image exists, use it
+        uploadBanner.style.backgroundImage = `url(${bannerImageUrl})`;
+        uploadBanner.innerText = ""; // Remove initial
+        banner.style.background = "";
+    } else {
+        uploadBanner.innerText = "Put up a Banner!";
+        uploadBanner.style.backgroundImage = ""; // Remove any background image
+        banner.style.background = "#ddd";
     }
 }
 
-setBannerImage();
+// Handle Banner Upload
+document.getElementById("uploadBanner").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append("bannerPhoto", file);
+
+        // Send banner to the server
+        fetch('/upload-banner', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.imageUrl) {
+                console.log(data.imageUrl);
+                setBanner(data.imageUrl);
+
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
+    }
+});
 
 // Profile Icon Settings
 function setProfileIcon(username, profileImageUrl) {
     const profileIcon = document.getElementById("profileIcon");
     if (!profileIcon) return;
 
-    console.log(profileImageUrl)
+    console.log(profileImageUrl);
 
     if (profileImageUrl) {
         // If profile image exists, use it
@@ -72,6 +89,8 @@ document.getElementById("profileUpload").addEventListener("change", function(eve
             if (data.imageUrl) {
                 // Set the profile icon to the uploaded image URL
                 setProfileIcon("", data.imageUrl);
+
+                window.location.reload();
             }
         })
         .catch(error => {
@@ -82,4 +101,5 @@ document.getElementById("profileUpload").addEventListener("change", function(eve
 
 if(profile){
     setProfileIcon(profile.username, profile.profilePhoto);
+    setBanner(profile.bannerPhoto);
 }
