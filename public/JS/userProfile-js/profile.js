@@ -1,9 +1,7 @@
 // Profile Icon Settings
 function setBanner(bannerImageUrl) {
-    const uploadBanner = document.getElementById("uploadBanner");
+    const uploadBanner = document.getElementById("bannerUpload");
     const banner = document.getElementById('banner');
-
-    console.log(bannerImageUrl);
 
     if (!uploadBanner) return;
 
@@ -12,6 +10,7 @@ function setBanner(bannerImageUrl) {
         uploadBanner.style.backgroundImage = `url(${bannerImageUrl})`;
         uploadBanner.innerText = ""; // Remove initial
         banner.style.background = "";
+        console.log(uploadBanner.style.backgroundImage);
     } else {
         uploadBanner.innerText = "Put up a Banner!";
         uploadBanner.style.backgroundImage = ""; // Remove any background image
@@ -50,8 +49,6 @@ document.getElementById("uploadBanner").addEventListener("change", function(even
 function setProfileIcon(username, profileImageUrl) {
     const profileIcon = document.getElementById("profileIcon");
     if (!profileIcon) return;
-
-    console.log(profileImageUrl);
 
     if (profileImageUrl) {
         // If profile image exists, use it

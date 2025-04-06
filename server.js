@@ -210,6 +210,10 @@ function renderPage(req, res) {
         profile: 'Profile'
     }[page] || 'Page';
 
+    if (['profile', 'settings'].includes(page) && !req.session.user) {
+        return res.redirect('/authentication?page=login');
+    }
+
     console.log(users);
     console.log(req.session.user);
     res.render('index', { template: template, title: title});
@@ -226,4 +230,14 @@ function renderAuthentication(req, res,) {
     const errorMessage = req.query.error;
 
     res.render('authentication', { template: template, title: title, errorMessage: errorMessage });
+}
+
+//Logged in middleware
+function loggedIn(req,res){
+    if(req.session.user){
+        res.redirect('/?page=profile');
+    }
+    else{
+        res.redirect('/authentication');
+    }
 }
