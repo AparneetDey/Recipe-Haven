@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const multer = require('multer');
+const fs = require('fs');
 
 const { isUint16Array } = require('util/types');
 const { emit } = require('process');
@@ -101,7 +102,39 @@ app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
 });
 
 
+//Remove Profile photo
+app.post('/remove-photo', (req,res)=>{
+    const user = req.session.user;
 
+    if(user && user.profilePhoto){
+        const imageUrl = path.join(__dirname, 'public', user.profilePhoto);
+
+        fs.unlink(imageUrl, (err)=>{
+            if(err){
+                console.error('Error deleting profile photo:', err);
+                return res.status(500).send('Failed to delete image.');
+            }
+        });
+
+        user.profilePhoto = '';
+        res.redirect('/?page=profile');
+    }
+    else if(user && user.bannerPhoto){
+        const imageUrl = path.join(__dirname, 'public', user.bannerPhoto);
+
+        fs.unlink(imageUrl, (err)=>{
+            if(err){
+                console.error('Error deleting profile photo:', err);
+                return res.status(500).send('Failed to delete image.');
+            }
+        });
+
+        user.bannerPhoto = '';
+        res.redirect('/?page=profile');
+    } else{
+        res.redirect('/?page=profile');
+    }
+});
 
 // Serve robots.txt
 app.get('/robots.txt', (req, res) => {
@@ -214,8 +247,6 @@ function renderPage(req, res) {
         return res.redirect('/authentication?page=login');
     }
 
-    console.log(users);
-    console.log(req.session.user);
     res.render('index', { template: template, title: title});
 }
 
@@ -230,14 +261,4 @@ function renderAuthentication(req, res,) {
     const errorMessage = req.query.error;
 
     res.render('authentication', { template: template, title: title, errorMessage: errorMessage });
-}
-
-//Logged in middleware
-function loggedIn(req,res){
-    if(req.session.user){
-        res.redirect('/?page=profile');
-    }
-    else{
-        res.redirect('/authentication');
-    }
 }

@@ -2,6 +2,7 @@
 function setBanner(bannerImageUrl) {
     const uploadBanner = document.getElementById("bannerUpload");
     const banner = document.getElementById('banner');
+    const remove = document.getElementById('deleteBannerBtn');
 
     if (!uploadBanner) return;
 
@@ -10,11 +11,12 @@ function setBanner(bannerImageUrl) {
         uploadBanner.style.backgroundImage = `url(${bannerImageUrl})`;
         uploadBanner.innerText = ""; // Remove initial
         banner.style.background = "";
-        console.log(uploadBanner.style.backgroundImage);
+        remove.style.display = "block";
     } else {
         uploadBanner.innerText = "Put up a Banner!";
         uploadBanner.style.backgroundImage = ""; // Remove any background image
         banner.style.background = "#ddd";
+        remove.style.display = "none";
     }
 }
 
@@ -48,18 +50,22 @@ document.getElementById("uploadBanner").addEventListener("change", function(even
 // Profile Icon Settings
 function setProfileIcon(username, profileImageUrl) {
     const profileIcon = document.getElementById("profileIcon");
+    const remove = document.getElementById('deletePicBtn');
+
     if (!profileIcon) return;
 
     if (profileImageUrl) {
         // If profile image exists, use it
         profileIcon.style.backgroundImage = `url(${profileImageUrl})`;
         profileIcon.innerText = ""; // Remove initial
+        remove.style.display = "block";
     } else {
         // If no profile image, use the default initials with random color
         let initial = username.charAt(0).toUpperCase();
         profileIcon.innerText = initial;
         profileIcon.style.backgroundImage = ""; // Remove any background image
         profileIcon.style.backgroundColor = getRandomColor(); // Set random background color
+        remove.style.display = "none";
     }
 }
 

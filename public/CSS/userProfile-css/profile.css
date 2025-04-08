@@ -96,6 +96,41 @@
     font-size: 14px;
 }
 
+/* delete button */
+.userPic{
+    position: relative;
+}
+
+.bannerPic{
+    position: relative;
+}
+
+.delete-btn{
+    position: absolute;
+}
+
+.delete-btn button{
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border: none;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-banner{
+    top: 5px;
+    right: 5px;
+}
+
+.delete-profile-pic{
+    top: 0;
+    right: 0;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .profile-pic img {
