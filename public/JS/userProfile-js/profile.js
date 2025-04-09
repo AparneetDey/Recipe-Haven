@@ -21,7 +21,7 @@ function setBanner(bannerImageUrl) {
 }
 
 // Handle Banner Upload
-document.getElementById("uploadBanner").addEventListener("change", function(event) {
+document.getElementById("uploadBanner").addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
         const formData = new FormData();
@@ -32,18 +32,18 @@ document.getElementById("uploadBanner").addEventListener("change", function(even
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.imageUrl) {
-                console.log(data.imageUrl);
-                setBanner(data.imageUrl);
+            .then(response => response.json())
+            .then(data => {
+                if (data.imageUrl) {
+                    console.log(data.imageUrl);
+                    setBanner(data.imageUrl);
 
-                window.location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error uploading image:', error);
-        });
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
     }
 });
 
@@ -76,7 +76,7 @@ function getRandomColor() {
 }
 
 // Handle Image Upload
-document.getElementById("profileUpload").addEventListener("change", function(event) {
+document.getElementById("profileUpload").addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
         const formData = new FormData();
@@ -87,22 +87,54 @@ document.getElementById("profileUpload").addEventListener("change", function(eve
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.imageUrl) {
-                // Set the profile icon to the uploaded image URL
-                setProfileIcon("", data.imageUrl);
+            .then(response => response.json())
+            .then(data => {
+                if (data.imageUrl) {
+                    // Set the profile icon to the uploaded image URL
+                    setProfileIcon("", data.imageUrl);
 
-                window.location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error uploading image:', error);
-        });
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
     }
 });
 
-if(profile){
+if (profile) {
     setProfileIcon(profile.username, profile.profilePhoto);
     setBanner(profile.bannerPhoto);
 }
+
+const profileBio = document.getElementById('profileBio');
+
+profileBio.addEventListener("input", ()=>{
+    profileBio.style.height = "auto";
+    profileBio.style.height = profileBio.scrollHeight + "px";
+})
+
+profileBio.addEventListener("keydown", event => {
+    if (event.key == "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        saveBio();
+        event.target.blur();
+    }
+});
+
+function saveBio() {
+    const bio = profileBio.value;
+  
+    fetch('/save-bio', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ bio })
+    })
+    .then(response => response.json())
+    .catch(err => {
+      console.error('Error saving bio:', err);
+    });
+  }
+  

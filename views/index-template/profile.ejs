@@ -1,22 +1,22 @@
 <!-- Profile Container -->
 <div class="profile-container">
     <!-- Banner -->
-     <div class="bannerPic">
-        <form method="POST" id="deleteBannerBtn" class="delete-btn delete-banner" action="/remove-photo">
+    <div class="bannerPic">
+        <form method="POST" id="deleteBannerBtn" class="delete-btn delete-banner" action="/remove-banner-photo">
             <button type="submit"><i class="fa-regular fa-trash-can fa-xs"></i></button>
         </form>
         <form class="banner" id="banner" action="/upload-banner" method="POST" enctype="multipart/form-data">
-            <input type="file" id="uploadBanner"  name="bannerPhoto">
+            <input type="file" id="uploadBanner" name="bannerPhoto">
             <label for="uploadBanner" class="upload-area" id="uploadArea">
                 <div class="upload-banner" id="bannerUpload"></div>
             </label>
         </form>
-     </div>
+    </div>
 
     <!-- User Info Section -->
     <div class="user-info">
         <div class="userPic">
-            <form method="POST" id="deletePicBtn" class="delete-btn delete-profile-pic" action="/remove-photo">
+            <form method="POST" id="deletePicBtn" class="delete-btn delete-profile-pic" action="/remove-profile-photo">
                 <button type="submit"><i class="fa-regular fa-trash-can fa-xs"></i></button>
             </form>
             <form class="profile-pic" action="/upload-profile" method="POST" enctype="multipart/form-data">
@@ -26,8 +26,12 @@
                 <input type="file" id="profileUpload" name="profilePhoto" style="display: none;">
             </form>
         </div>
-        <h2 class="username"><%= user.username %></h2>
-        <p class="bio">Food Enthusiast | Loves Cooking</p>
+        <!-- username -->
+        <h2 class="username">
+            <%= user.username %>
+        </h2>
+        <!-- bio -->
+        <textarea id="profileBio" class="bio" spellcheck="false" name="bio" placeholder="Write your bio..."><%= user.bio %></textarea>
 
         <!-- Food Preferences -->
         <div class="food-tags">

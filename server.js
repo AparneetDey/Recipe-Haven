@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
 
 //  Global User Middleware (Makes user available in all templates)
 app.use((req, res, next) => {
-    res.locals.user = req.session.user || {username: ''};
+    res.locals.user = req.session.user || { username: '' };
     next();
 });
 
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 // Set up storage for multer to save files to public/images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, 'public', 'Images','profileImages')); // Save images in 'public/Images/profileImages'
+        cb(null, path.join(__dirname, 'public', 'Images', 'profileImages')); // Save images in 'public/Images/profileImages'
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`); // Generate unique filename
@@ -68,14 +68,14 @@ app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
     }
 
     const profileImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
-    
+
     req.session.user = { ...req.session.user, profilePhoto: profileImageUrl };
     let updatedUser = req.session.user;
 
-    users = users.map(user => 
+    users = users.map(user =>
         user.username === updatedUser.username ? { ...user, ...updatedUser } : user
     );
-    
+
 
     // You can save this URL in the user's profile in the database if required
 
@@ -88,14 +88,14 @@ app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
     }
 
     const bannerImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
-    
+
     req.session.user = { ...req.session.user, bannerPhoto: bannerImageUrl };
     let updatedUser = req.session.user;
 
-    users = users.map(user => 
+    users = users.map(user =>
         user.username === updatedUser.username ? { ...user, ...updatedUser } : user
     );
-    
+
 
     // You can save this URL in the user's profile in the database if required
     res.json({ imageUrl: bannerImageUrl });
@@ -103,14 +103,14 @@ app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
 
 
 //Remove Profile photo
-app.post('/remove-photo', (req,res)=>{
+app.post('/remove-profile-photo', (req, res) => {
     const user = req.session.user;
 
-    if(user && user.profilePhoto){
+    if (user && user.profilePhoto) {
         const imageUrl = path.join(__dirname, 'public', user.profilePhoto);
 
-        fs.unlink(imageUrl, (err)=>{
-            if(err){
+        fs.unlink(imageUrl, (err) => {
+            if (err) {
                 console.error('Error deleting profile photo:', err);
                 return res.status(500).send('Failed to delete image.');
             }
@@ -118,12 +118,20 @@ app.post('/remove-photo', (req,res)=>{
 
         user.profilePhoto = '';
         res.redirect('/?page=profile');
+    } else {
+        res.redirect('/?page=profile');
     }
-    else if(user && user.bannerPhoto){
+});
+
+//Remove Banner photo
+app.post('/remove-banner-photo', (req, res) => {
+    const user = req.session.user;
+
+    if (user && user.bannerPhoto) {
         const imageUrl = path.join(__dirname, 'public', user.bannerPhoto);
 
-        fs.unlink(imageUrl, (err)=>{
-            if(err){
+        fs.unlink(imageUrl, (err) => {
+            if (err) {
                 console.error('Error deleting profile photo:', err);
                 return res.status(500).send('Failed to delete image.');
             }
@@ -131,10 +139,25 @@ app.post('/remove-photo', (req,res)=>{
 
         user.bannerPhoto = '';
         res.redirect('/?page=profile');
-    } else{
+    } else {
         res.redirect('/?page=profile');
     }
 });
+
+//Update bio
+app.post('/save-bio', (req, res) => {
+    const bio = req.body.bio;
+
+    if (req.session.user) {
+        req.session.user = { ...req.session.user, bio: bio };
+        let updatedUser = req.session.user;
+
+        users = users.map(user =>
+            user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+        );
+        res.json({ success : true });
+    }
+})
 
 // Serve robots.txt
 app.get('/robots.txt', (req, res) => {
@@ -156,7 +179,7 @@ app.post('/signup', (req, res) => {
     users.push(user);
     req.session.user = user;
 
-    req.session.save(()=>{
+    req.session.save(() => {
         res.redirect('/');
     });
 });
@@ -174,7 +197,7 @@ app.post('/login', (req, res) => {
         if (user.password === sample.password) {
             req.session.user = user;
 
-            req.session.save(()=>{
+            req.session.save(() => {
                 res.redirect('/')
             });
         }
@@ -190,7 +213,7 @@ app.post('/login', (req, res) => {
 });
 
 //signout
-app.get('/signout',(req,res)=>{
+app.get('/signout', (req, res) => {
     req.session.regenerate(err => {
         if (err) {
             console.error('Error regenerating session:', err);
@@ -247,7 +270,7 @@ function renderPage(req, res) {
         return res.redirect('/authentication?page=login');
     }
 
-    res.render('index', { template: template, title: title});
+    res.render('index', { template: template, title: title });
 }
 
 function renderAuthentication(req, res,) {
