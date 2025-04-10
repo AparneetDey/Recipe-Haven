@@ -2,12 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
-const multer = require('multer');
-const fs = require('fs');
-
-const { isUint16Array } = require('util/types');
-const { emit } = require('process');
-const { log } = require('console');
+const cloudinary = require('./utils/cloudinaryConfig');
 
 let users = [{
     username: 'Ayush',
@@ -47,19 +42,7 @@ app.use((req, res, next) => {
 
 
 
-
-// Set up storage for multer to save files to public/images
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, 'public', 'Images', 'profileImages')); // Save images in 'public/Images/profileImages'
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`); // Generate unique filename
-    }
-});
-
-// Initialize multer with storage settings
-const upload = multer({ storage: storage });
+const upload = require('./utils/upload');
 
 // Route to handle profile image upload
 app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
@@ -67,7 +50,7 @@ app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
         return res.status(400).send('No file uploaded.');
     }
 
-    const profileImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
+    const profileImageUrl = req.file.path; // this is Cloudinary's hosted image URL
 
     req.session.user = { ...req.session.user, profilePhoto: profileImageUrl };
     let updatedUser = req.session.user;
@@ -76,73 +59,32 @@ app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
         user.username === updatedUser.username ? { ...user, ...updatedUser } : user
     );
 
-
     // You can save this URL in the user's profile in the database if required
-
     res.json({ imageUrl: profileImageUrl });
+    return;
 });
-
-app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
-    }
-
-    const bannerImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
-
-    req.session.user = { ...req.session.user, bannerPhoto: bannerImageUrl };
-    let updatedUser = req.session.user;
-
-    users = users.map(user =>
-        user.username === updatedUser.username ? { ...user, ...updatedUser } : user
-    );
-
-
-    // You can save this URL in the user's profile in the database if required
-    res.json({ imageUrl: bannerImageUrl });
-});
-
 
 //Remove Profile photo
-app.post('/remove-profile-photo', (req, res) => {
+app.post('/remove-profile-photo', async (req, res) => {
     const user = req.session.user;
 
     if (user && user.profilePhoto) {
-        const imageUrl = path.join(__dirname, 'public', user.profilePhoto);
+        // Extract public_id from URL
+        const publicId = user.profilePhoto.split('/').pop().split('.')[0]; // crude extraction
 
-        fs.unlink(imageUrl, (err) => {
-            if (err) {
-                console.error('Error deleting profile photo:', err);
-                return res.status(500).send('Failed to delete image.');
-            }
-        });
-
-        user.profilePhoto = '';
-        res.redirect('/?page=profile');
+        try {
+            await cloudinary.uploader.destroy(`profileImages/${publicId}`); // folder if used
+            user.profilePhoto = '';
+            res.redirect('/?page=profile');
+        } catch (err) {
+            console.error('Error deleting image from Cloudinary:', err);
+            res.status(500).send('Failed to delete image.');
+        }
     } else {
         res.redirect('/?page=profile');
     }
 });
 
-//Remove Banner photo
-app.post('/remove-banner-photo', (req, res) => {
-    const user = req.session.user;
-
-    if (user && user.bannerPhoto) {
-        const imageUrl = path.join(__dirname, 'public', user.bannerPhoto);
-
-        fs.unlink(imageUrl, (err) => {
-            if (err) {
-                console.error('Error deleting profile photo:', err);
-                return res.status(500).send('Failed to delete image.');
-            }
-        });
-
-        user.bannerPhoto = '';
-        res.redirect('/?page=profile');
-    } else {
-        res.redirect('/?page=profile');
-    }
-});
 
 //Update bio
 app.post('/save-bio', (req, res) => {
@@ -155,7 +97,7 @@ app.post('/save-bio', (req, res) => {
         users = users.map(user =>
             user.username === updatedUser.username ? { ...user, ...updatedUser } : user
         );
-        res.json({ success : true });
+        res.json({ success: true });
     }
 })
 

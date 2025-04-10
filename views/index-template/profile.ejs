@@ -1,22 +1,9 @@
 <!-- Profile Container -->
 <div class="profile-container">
-    <!-- Banner -->
-    <div class="bannerPic">
-        <form method="POST" id="deleteBannerBtn" class="delete-btn delete-banner" action="/remove-banner-photo">
-            <button type="submit"><i class="fa-regular fa-trash-can fa-xs"></i></button>
-        </form>
-        <form class="banner" id="banner" action="/upload-banner" method="POST" enctype="multipart/form-data">
-            <input type="file" id="uploadBanner" name="bannerPhoto">
-            <label for="uploadBanner" class="upload-area" id="uploadArea">
-                <div class="upload-banner" id="bannerUpload"></div>
-            </label>
-        </form>
-    </div>
-
     <!-- User Info Section -->
     <div class="user-info">
         <div class="userPic">
-            <form method="POST" id="deletePicBtn" class="delete-btn delete-profile-pic" action="/remove-profile-photo">
+            <form method="POST" id="deletePicBtn" class="delete-btn" action="/remove-profile-photo">
                 <button type="submit"><i class="fa-regular fa-trash-can fa-xs"></i></button>
             </form>
             <form class="profile-pic" action="/upload-profile" method="POST" enctype="multipart/form-data">
