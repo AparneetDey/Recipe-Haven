@@ -9,7 +9,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
 /* Banner */
@@ -98,16 +98,6 @@
 .bio:focus{
     outline: none;
     border: none;
-}
-
-/* Food Tags */
-.food-tags span{
-    background: #cd3a00;
-    color: white;
-    padding: 5px 10px;
-    margin: 5px;
-    border-radius: 5px;
-    font-size: 14px;
 }
 
 /* delete button */

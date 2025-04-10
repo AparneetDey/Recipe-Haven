@@ -109,16 +109,21 @@ if (profile) {
 
 const profileBio = document.getElementById('profileBio');
 
-profileBio.addEventListener("input", ()=>{
+profileBio.addEventListener("input", textAreaResize);
+
+window.addEventListener('DOMContentLoaded', textAreaResize);
+
+function textAreaResize(){
     profileBio.style.height = "auto";
     profileBio.style.height = profileBio.scrollHeight + "px";
-})
+}
 
 profileBio.addEventListener("keydown", event => {
     if (event.key == "Enter" && !event.shiftKey) {
         event.preventDefault();
         saveBio();
         event.target.blur();
+        window.location.reload();
     }
 });
 
