@@ -4,11 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Discover and share delicious recipes from around the world. Our recipe-sharing platform offers a wide variety of dishes, from classic favorites to modern creations, all in a user-friendly, responsive interface." />
+	<meta name="description"
+		content="Discover and share delicious recipes from around the world. Our recipe-sharing platform offers a wide variety of dishes, from classic favorites to modern creations, all in a user-friendly, responsive interface." />
 	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 	<meta name="google-site-verification" content="CKPHLnSRUyybjyiIUNWCtbdKwb28XGi4q733dmEYSR4" />
 
-	<title>Recipe Haven - <%= title %></title>
+	<title>Recipe Haven - <%= title %>
+	</title>
 
 	<link rel="icon" href="/Images/logo.jpg" type="image/png">
 
@@ -29,6 +31,7 @@
 	<link rel="stylesheet" href="/CSS/index-css/teasers.css">
 	<link rel="stylesheet" href="/CSS/index-css/footer.css">
 	<link rel="stylesheet" href="/CSS/index-css/about.css">
+	<link rel="stylesheet" href="/CSS/userProfile-css/profile.css">
 </head>
 
 <body>
@@ -46,25 +49,31 @@
 				</ul>
 			</div>
 			<div class="right-header">
-				<% if (username) { %>
-					<div class="user-profile"><img src="/Images/profile.jpg" alt="user-profile"></div>
-					<div class="user-name"><p><%= username %></p><i class="fa-solid fa-chevron-down fa-lg"></i></div>
+				<% if (user.username) { %>
+					<div class="user-profile" id="userProfile" onclick="window.location.href='?page=profile'"></div>
+					<div class="user-name">
+						<p>
+							<%= user.username %>
+						</p>
+						<i class="fa-solid fa-chevron-down fa-lg"></i>
+					</div>
 					<ul class="user-links">
-						<li><a href="?=profile">Profile</a></li>
-						<li><a href="?=settings">Settings</a></li>
-						<li><a href="?=posts">Your Posts</a></li>
-						<li><a href="/signout" >Sign Out</a></li>
+						<li><a href="?page=profile">Profile</a></li>
+						<li><a href="?page=settings">Settings</a></li>
+						<li><a href="?page=posts">Your Posts</a></li>
+						<li><a href="/signout">Sign Out</a></li>
 					</ul>
 				<% } else { %>
 					<div class="header-btn">
-						<button class="login-btn" onclick="window.location.href='/authentication?page=login'">Login</button>
+							<button class="login-btn"
+								onclick="window.location.href='/authentication?page=login'">Login</button>
 					</div>
 				<% } %>
-				<div class="hamburger">
-					<span class="bar"></span>
-					<span class="bar"></span>
-					<span class="bar"></span>
-				</div>
+					<div class="hamburger">
+						<span class="bar"></span>
+						<span class="bar"></span>
+						<span class="bar"></span>
+					</div>
 			</div>
 		</nav>
 		<div style="height: 75px;"></div>
@@ -113,7 +122,16 @@
 		</div>
 	</footer>
 
+
+	<script>
+		const profile = {
+			username: "<%= user.username %>",
+			bannerPhoto: "<%= user.bannerPhoto %>",
+			profilePhoto: "<%= user.profilePhoto %>",
+		}
+	</script>
 	<script type="module" src="/JS/index-js/index.js"></script>
+	<script type="module" src="/JS/userProfile-js/profile.js"></script>
 </body>
 
 </html>

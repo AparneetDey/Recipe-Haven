@@ -5,7 +5,8 @@
     </a>
     <h2>Sign Up</h2>
     <form action="/signup" method="POST">
-        <input type="text" name="username" placeholder="New Username" required>
+        <input type="text" name="username" placeholder="New Username"
+            pattern="^[A-Za-z].*" title="Username must start with an alphabet." required>
         <input type="password" name="password" placeholder="New Password" required>
         <button type="submit">Sign Up</button>
     </form>

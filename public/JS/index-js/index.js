@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     applyFunction();
 })
 
+if (window.performance && window.performance.navigation.type === 1) {
+    sessionStorage.setItem("reloaded", "true");
+}
+if (!sessionStorage.getItem("reloaded")) {
+    sessionStorage.setItem("reloaded", "true");
+    location.reload();
+}
+
+
 function applyFunction() {
 
     // Mobile menu handling
@@ -94,4 +103,32 @@ function applyFunction() {
     catch (error) {
         //pass
     }
+}
+
+// Header Profile Icon Settings
+function setProfileIcon(username, profileImageUrl) {
+    const profileIcon = document.getElementById("userProfile");
+    if (!profileIcon) return;
+
+    if (profileImageUrl) {
+        // If profile image exists, use it
+        profileIcon.style.backgroundImage = `url(${profileImageUrl})`;
+        profileIcon.innerText = ""; // Remove initial
+    } else {
+        // If no profile image, use the default initials with random color
+        let initial = username.charAt(0).toUpperCase();
+        profileIcon.innerText = initial;
+        profileIcon.style.backgroundImage = ""; // Remove any background image
+        profileIcon.style.backgroundColor = getRandomColor(); // Set random background color
+    }
+}
+
+// Random Color for Initials
+function getRandomColor() {
+    const colors = ["#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+if(profile){
+    setProfileIcon(profile.username, profile.profilePhoto);
 }

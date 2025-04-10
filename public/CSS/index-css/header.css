@@ -160,13 +160,21 @@
 }
 
 .user-profile{
-    min-width: 30px;
-    max-width: 40px;
-    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    font-size: clamp(1.25rem, 0.375rem + 2vw, 1.5rem);
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
     cursor: pointer;
+    background-size: cover;
+    background-position: center;
 }
 
 .user-profile img{

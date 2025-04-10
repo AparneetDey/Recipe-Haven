@@ -2,19 +2,25 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
+const multer = require('multer');
+const fs = require('fs');
+
 const { isUint16Array } = require('util/types');
 const { emit } = require('process');
 const { log } = require('console');
 
 let users = [{
-    userName: 'Ayush',
-    passWord: '12345'
+    username: 'Ayush',
+    password: '12345'
 }];
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'views'));
+
+// Serve static files from the public directory
+app.use(express.static('public'));
 
 // Configure session middleware
 app.use(session({
@@ -33,45 +39,125 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-//Signup
-app.post('/signup', (req, res) => {
-    const user = {
-        userName: req.body.username,
-        passWord: req.body.password
-    };
-
-    users.push(user);
-    req.session.user = user;
-
-    renderPage(req, res);
+//  Global User Middleware (Makes user available in all templates)
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || { username: '' };
+    next();
 });
 
-//Login 
-app.post('/login', (req, res) => {
-    const user = {
-        userName: req.body.username,
-        passWord: req.body.password
-    };
 
-    if (users.some(u => u.userName === user.userName)) {
-        if (users.some(u => u.passWord === user.passWord)) {
-            req.session.user = user;
 
-            renderPage(req, res);
-        }
-        else {
-            const errorMessage = 'Wrong Password';
-            renderAuthentication(req, res, errorMessage)
-        }
-    }
-    else {
-        const errorMessage = 'Incorrect Username';
-        renderAuthentication(req, res, errorMessage);
+
+// Set up storage for multer to save files to public/images
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'public', 'Images', 'profileImages')); // Save images in 'public/Images/profileImages'
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`); // Generate unique filename
     }
 });
 
-// Serve static files from the public directory
-app.use(express.static('public'));
+// Initialize multer with storage settings
+const upload = multer({ storage: storage });
+
+// Route to handle profile image upload
+app.post('/upload-profile', upload.single('profilePhoto'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    const profileImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
+
+    req.session.user = { ...req.session.user, profilePhoto: profileImageUrl };
+    let updatedUser = req.session.user;
+
+    users = users.map(user =>
+        user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+    );
+
+
+    // You can save this URL in the user's profile in the database if required
+
+    res.json({ imageUrl: profileImageUrl });
+});
+
+app.post('/upload-banner', upload.single('bannerPhoto'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    const bannerImageUrl = `/Images/profileImages/${req.file.filename}`; // File path for the uploaded image
+
+    req.session.user = { ...req.session.user, bannerPhoto: bannerImageUrl };
+    let updatedUser = req.session.user;
+
+    users = users.map(user =>
+        user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+    );
+
+
+    // You can save this URL in the user's profile in the database if required
+    res.json({ imageUrl: bannerImageUrl });
+});
+
+
+//Remove Profile photo
+app.post('/remove-profile-photo', (req, res) => {
+    const user = req.session.user;
+
+    if (user && user.profilePhoto) {
+        const imageUrl = path.join(__dirname, 'public', user.profilePhoto);
+
+        fs.unlink(imageUrl, (err) => {
+            if (err) {
+                console.error('Error deleting profile photo:', err);
+                return res.status(500).send('Failed to delete image.');
+            }
+        });
+
+        user.profilePhoto = '';
+        res.redirect('/?page=profile');
+    } else {
+        res.redirect('/?page=profile');
+    }
+});
+
+//Remove Banner photo
+app.post('/remove-banner-photo', (req, res) => {
+    const user = req.session.user;
+
+    if (user && user.bannerPhoto) {
+        const imageUrl = path.join(__dirname, 'public', user.bannerPhoto);
+
+        fs.unlink(imageUrl, (err) => {
+            if (err) {
+                console.error('Error deleting profile photo:', err);
+                return res.status(500).send('Failed to delete image.');
+            }
+        });
+
+        user.bannerPhoto = '';
+        res.redirect('/?page=profile');
+    } else {
+        res.redirect('/?page=profile');
+    }
+});
+
+//Update bio
+app.post('/save-bio', (req, res) => {
+    const bio = req.body.bio;
+
+    if (req.session.user) {
+        req.session.user = { ...req.session.user, bio: bio };
+        let updatedUser = req.session.user;
+
+        users = users.map(user =>
+            user.username === updatedUser.username ? { ...user, ...updatedUser } : user
+        );
+        res.json({ success : true });
+    }
+})
 
 // Serve robots.txt
 app.get('/robots.txt', (req, res) => {
@@ -83,12 +169,57 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
-//signout
-app.get('/signout',(req,res)=>{
-    if(req.session){
-        delete req.session.user;
+//Signup
+app.post('/signup', (req, res) => {
+    const user = {
+        username: req.body.username,
+        password: req.body.password
+    };
+
+    users.push(user);
+    req.session.user = user;
+
+    req.session.save(() => {
+        res.redirect('/');
+    });
+});
+
+//Login 
+app.post('/login', (req, res) => {
+    const sample = {
+        username: req.body.username,
+        password: req.body.password
+    };
+
+    let user = users.find(u => u.username === sample.username);
+
+    if (user) {
+        if (user.password === sample.password) {
+            req.session.user = user;
+
+            req.session.save(() => {
+                res.redirect('/')
+            });
+        }
+        else {
+            const errorMessage = 'Wrong Password';
+            res.redirect(`/authentication?page=login&error=${errorMessage}`);
+        }
     }
-    renderPage(req,res);
+    else {
+        const errorMessage = 'Incorrect Username';
+        res.redirect(`/authentication?page=login&error=${errorMessage}`)
+    }
+});
+
+//signout
+app.get('/signout', (req, res) => {
+    req.session.regenerate(err => {
+        if (err) {
+            console.error('Error regenerating session:', err);
+        }
+        res.redirect('/');
+    });
 })
 
 // Route to serve the authentication page
@@ -127,43 +258,30 @@ module.exports = app;
 function renderPage(req, res) {
     const page = req.query.page || 'home';
     const template = 'index-template/' + page;
-    let title;
+    let title = {
+        home: 'Home',
+        recipe: 'Recipes',
+        blog: 'Blogs',
+        about: 'About',
+        profile: 'Profile'
+    }[page] || 'Page';
 
-    const user = req.session.user || {
-        userName: '',
-        passWord: ''
-    };
-    const userName = user.userName;
-
-    switch (page) {
-        case 'home':
-            title = 'Home';
-            break;
-        case 'recipe':
-            title = 'Recipes';
-            break;
-        case 'blog':
-            title = 'Blogs';
-            break;
-        case 'about':
-            title = 'About';
-            break;
+    if (['profile', 'settings'].includes(page) && !req.session.user) {
+        return res.redirect('/authentication?page=login');
     }
-    res.render('index', { template: template, title: title, username: userName });
+
+    res.render('index', { template: template, title: title });
 }
 
-function renderAuthentication(req, res, errorMessage = '') {
+function renderAuthentication(req, res,) {
     const page = req.query.page || 'login';
-    template = 'authentication-template/' + page;
+    const template = 'authentication-template/' + page;
+    let title = {
+        login: 'login',
+        signup: 'signup'
+    }[page] || 'Page';
 
-    switch (page) {
-        case 'login':
-            title = 'Log In';
-            break;
-        case 'signup':
-            title = 'Sign Up';
-            break;
-    }
+    const errorMessage = req.query.error;
 
     res.render('authentication', { template: template, title: title, errorMessage: errorMessage });
 }
